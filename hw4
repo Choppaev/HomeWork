@@ -1,0 +1,22 @@
+class Class1:
+def __init__(self, name):
+self.name = name
+
+class Class2:
+def __init__(self, age):
+self.age = age
+
+class Class3:
+def method1(self):
+print("This is method1.")
+
+class Class4:
+def method2(self):
+print("This is method2.")
+
+
+# Файл new_file.py
+
+class Class5:
+def __init__(self):
+pass
