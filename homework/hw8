@@ -1,0 +1,82 @@
+import sqlite3
+
+conn = sqlite3.connect("students.db")
+cursor = conn.cursor()
+
+# Создаем талблицу "students"
+cursor.execute('''CREATE TABLE IF NOT EXISTS students (
+                    id INTEGER PRIMARY KEY,
+                    hobby TEXT,
+                    first_name TEXT,
+                    last_name TEXT,
+                    birth_year INTEGER,
+                    homework_score INTEGER
+                )''')
+# Сохранить изменения
+conn.commit()
+conn.close()
+
+conn = sqlite3.connect("students.db")
+cursor = conn.cursor()
+
+students_data = [
+    ("Hiking", "John", "Smith", 1995, 15),
+    ("Reading", "Alice", "Johnson", 1998, 8),
+    ("Painting", "Eva", "Williams", 1997, 12),
+    ("Swimming", "Michael", "Brown", 1996, 9),
+    ("Gaming", "Sophia", "Davis", 1999, 11),
+    ("Cooking", "Daniel", "Miller", 1994, 13),
+    ("Dancing", "Olivia", "Wilson", 1993, 7),
+    ("Singing", "William", "Taylor", 1992, 14),
+    ("Cycling", "Emily", "Anderson", 2000, 6),
+    ("Coding", "Matthew", "Martinez", 1991, 10)
+]
+
+cursor.executemany("INSERT INTO students (hobby, first_name, last_name, birth_year, homework_score) VALUES (?, ?, ?, ?, ?)", students_data)
+
+# Сохранить изменения
+conn.commit()
+conn.close()
+
+conn = sqlite3.connect("students.db")
+cursor = conn.cursor()
+
+cursor.execute("SELECT * FROM students WHERE LENGTH(last_name) > 10")
+result = cursor.fetchall()
+
+for row in result:
+    print(row)
+
+conn.close()
+
+# Измените имена всех студентов, у которых баллы за домашние задания больше 10, на "genius"
+conn = sqlite3.connect("students.db")
+cursor = conn.cursor()
+
+cursor.execute("UPDATE students SET first_name = 'genius' WHERE homework_score > 10")
+
+# Сохраняем изменения и закрываем соединение
+conn.commit()
+conn.close()
+
+# Выведите всех студентов с именем "genius"
+conn = sqlite3.connect("students.db")
+cursor = conn.cursor()
+
+cursor.execute("SELECT * FROM students WHERE first_name = 'genius'")
+result = cursor.fetchall()
+
+for row in result:
+    print(row)
+
+conn.close()
+
+# Удалите всех студентов, у которых id четное
+conn = sqlite3.connect("students.db")
+cursor = conn.cursor()
+
+cursor.execute("DELETE FROM students WHERE id % 2 = 0")
+
+# Сохраняем изменения и закрываем соединение
+conn.commit()
+conn.close()
